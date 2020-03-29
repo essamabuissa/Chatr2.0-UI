@@ -1,17 +1,69 @@
 import jwt_decode from "jwt-decode";
 
+import { SET_CURRENT_USER } from "./actionTypes";
+
 import instance from "./instance";
 
-import {} from "./actionTypes";
+export const checkForExpiredToken = () => {
+  return dispatch => {
+    const token = localStorage.getItem("token");
 
-import { setErrors } from "./errors";
+    if (token) {
+      const currentTime = Date.now() / 1000;
 
-export const checkForExpiredToken = () => {};
+      const user = jwt_decode(token);
+      if (user.exp >= currentTime) {
+        dispatch(setCurrentUser(user));
+      } else {
+        logout();
+      }
+    }
+  };
+};
 
-export const login = userData => {};
+const setAuthToken = token => {
+  if (token) {
+    instance.defaults.headers.common.Authorization = `jwt ${token}`;
+    localStorage.setItem("token", token);
+  } else {
+    delete instance.defaults.headers.common.Authorization;
+    localStorage.removeItem("token");
+  }
+};
 
-export const signup = userData => {};
+const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  payload: user
+});
 
-export const logout = () => {};
+export const login = (userData, history) => async dispatch => {
+  try {
+    const res = await instance.post("/login/", userData);
+    const { token } = res.data;
 
-const setCurrentUser = token => {};
+    const decodeUser = jwt_decode(token);
+    setAuthToken(token);
+    dispatch(setCurrentUser(decodeUser));
+    history.push("/welcome");
+  } catch (error) {
+    console.error(error.response.data);
+  }
+};
+
+export const signup = (userData, history) => async dispatch => {
+  try {
+    const res = await instance.post("/signup/", userData);
+    const { token } = res.data;
+    const decodeUser = jwt_decode(token);
+    setAuthToken(token);
+    dispatch(setCurrentUser(decodeUser));
+    history.push("/welcome");
+  } catch (error) {
+    console.error(error.response.data);
+  }
+};
+
+export const logout = () => {
+  setAuthToken(null);
+  return setCurrentUser(null);
+};
