@@ -1,6 +1,8 @@
 import jwt_decode from "jwt-decode";
 
 import { SET_CURRENT_USER } from "./actionTypes";
+import { resetErrors } from "./index";
+import { setErrors } from "./index";
 
 import instance from "./instance";
 
@@ -14,6 +16,7 @@ export const checkForExpiredToken = () => {
       const user = jwt_decode(token);
       if (user.exp >= currentTime) {
         dispatch(setCurrentUser(user));
+        console.log(user);
       } else {
         logout();
       }
@@ -21,13 +24,19 @@ export const checkForExpiredToken = () => {
   };
 };
 
+const setLocalStorage = token => {
+  if (token) {
+    localStorage.setItem("token", token);
+  } else {
+    localStorage.removeItem("token");
+  }
+};
+
 const setAuthToken = token => {
   if (token) {
     instance.defaults.headers.common.Authorization = `jwt ${token}`;
-    localStorage.setItem("token", token);
   } else {
     delete instance.defaults.headers.common.Authorization;
-    localStorage.removeItem("token");
   }
 };
 
@@ -36,34 +45,25 @@ const setCurrentUser = user => ({
   payload: user
 });
 
-export const login = (userData, history) => async dispatch => {
+export const registerForm = (userData, history, type) => async dispatch => {
   try {
-    const res = await instance.post("/login/", userData);
+    const res = await instance.post(`/${type}/`, userData);
     const { token } = res.data;
+    dispatch(resetErrors());
 
     const decodeUser = jwt_decode(token);
+    setLocalStorage(token);
     setAuthToken(token);
     dispatch(setCurrentUser(decodeUser));
     history.push("/welcome");
   } catch (error) {
-    console.error(error.response.data);
-  }
-};
-
-export const signup = (userData, history) => async dispatch => {
-  try {
-    const res = await instance.post("/signup/", userData);
-    const { token } = res.data;
-    const decodeUser = jwt_decode(token);
-    setAuthToken(token);
-    dispatch(setCurrentUser(decodeUser));
-    history.push("/welcome");
-  } catch (error) {
+    dispatch(setErrors(error.response.data));
     console.error(error.response.data);
   }
 };
 
 export const logout = () => {
+  setLocalStorage();
   setAuthToken(null);
   return setCurrentUser(null);
 };
