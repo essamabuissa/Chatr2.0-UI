@@ -2,6 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+/*
+ *
+ * If the user isn't logged in, they should see the full page with the login link.
+ * But if they're logged in, they should be redirected to another page entirely,
+ * they shouldn't be able to have access to this page at all.
+ *
+ */
+
 const Welcome = ({ user }) => (
   <header className="masthead d-flex">
     {!user ? (

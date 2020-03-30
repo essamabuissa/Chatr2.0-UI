@@ -36,6 +36,14 @@ const setCurrentUser = user => ({
   payload: user
 });
 
+/*
+ *
+ * You can combine the login() and signup() actions into a single action
+ * that receives a type.
+ * This way you can avoid a lot of unnecessary logic and repetitive code.
+ *
+ */
+
 export const login = (userData, history) => async dispatch => {
   try {
     const res = await instance.post("/login/", userData);

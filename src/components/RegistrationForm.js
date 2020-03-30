@@ -14,6 +14,11 @@ class RegistationForm extends Component {
   };
 
   submitHandler = e => {
+    /*
+     * This code can be simplified and shortened by combining
+     * the two actions into one.
+     * See the authentications.js action file for more details on this.
+     */
     e.preventDefault();
     const type = this.props.match.url.substring(1);
     if (type === "login") {
@@ -26,6 +31,11 @@ class RegistationForm extends Component {
   render() {
     const type = this.props.match.url.substring(1);
 
+    /*
+     *
+     * The user should be redirected to another page if they're logged in.
+     *
+     */
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
