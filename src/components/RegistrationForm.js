@@ -14,6 +14,13 @@ class RegistationForm extends Component {
     this.props.resetErrors();
   };
 
+  componentDidUpdate = previousProps => {
+    if (
+      this.props.match.url.substring(1) !== previousProps.match.url.substring(1)
+    )
+      this.props.resetErrors();
+  };
+
   changeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };

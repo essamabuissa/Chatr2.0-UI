@@ -1,4 +1,3 @@
 export { registerForm, logout, checkForExpiredToken } from "./authentication";
-
-export { setErrors } from "./errors";
-export { resetErrors } from "./errors";
+export { fetchChannels, postChannel } from "./channels";
+export { setErrors, resetErrors } from "./errors";
