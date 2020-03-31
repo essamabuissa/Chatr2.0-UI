@@ -1,4 +1,4 @@
-import { SET_CHANNEL, ADD_CHANNEL } from "../actions/actionTypes";
+import { SET_CHANNEL, ADD_CHANNEL, SET_MESSAGES } from "../actions/actionTypes";
 
 const initialState = [];
 
@@ -11,6 +11,10 @@ const reducer = (state = initialState, action) => {
     case ADD_CHANNEL:
       const newChannel = action.payload;
       return [newChannel, ...state];
+
+    case SET_MESSAGES:
+      const messages = action.payload;
+      return messages;
 
     default:
       return state;
