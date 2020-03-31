@@ -1,8 +1,9 @@
 import jwt_decode from "jwt-decode";
 
-import { SET_CURRENT_USER } from "./actionTypes";
+import { SET_CURRENT_USER, SET_CHANNEL } from "./actionTypes";
 import { resetErrors } from "./index";
 import { setErrors } from "./index";
+import { fetchChannels } from "./channels";
 
 import instance from "./instance";
 
@@ -15,10 +16,13 @@ export const checkForExpiredToken = () => {
 
       const user = jwt_decode(token);
       if (user.exp >= currentTime) {
+        setLocalStorage(token);
+        setAuthToken(token);
         dispatch(setCurrentUser(user));
         console.log(user);
+        dispatch(fetchChannels());
       } else {
-        logout();
+        dispatch(logout());
       }
     }
   };
@@ -55,15 +59,20 @@ export const registerForm = (userData, history, type) => async dispatch => {
     setLocalStorage(token);
     setAuthToken(token);
     dispatch(setCurrentUser(decodeUser));
-    history.push("/welcome");
+    dispatch(fetchChannels());
+    if (type === "login") history.push("/private");
   } catch (error) {
     dispatch(setErrors(error.response.data));
     console.error(error.response.data);
   }
 };
 
-export const logout = () => {
+export const logout = () => dispatch => {
+  dispatch({
+    type: SET_CHANNEL,
+    payload: []
+  });
   setLocalStorage();
   setAuthToken(null);
-  return setCurrentUser(null);
+  dispatch(setCurrentUser(null));
 };
