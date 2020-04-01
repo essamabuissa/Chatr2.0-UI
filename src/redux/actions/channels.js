@@ -17,6 +17,10 @@ export const fetchChannels = () => async dispatch => {
   }
 };
 
+/**
+ * It would be a great feature if you could redirect the user
+ * to the channel they just created
+ */
 export const postChannel = channel => async dispatch => {
   try {
     const res = await instance.post("/channels/create/", channel);

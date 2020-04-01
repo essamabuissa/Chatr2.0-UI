@@ -23,6 +23,7 @@ class App extends Component {
       <div className="content-wrapper">
         <NavBar />
         <Switch>
+          {/* See if you can go back to having channel name in the URL - it's better UX in the frontend */}
           <Route path="/channels/:channelID" component={ChannelDetail} />
           <Route path="/welcome" component={Welcome} />
           <Route path="/createChannel" component={CreateChannel} />

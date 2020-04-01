@@ -15,6 +15,11 @@ const Welcome = ({ user }) => (
         </center>
       ) : (
         <div className="container text-center my-auto z-1">
+          {/*
+           * I don't think this form should be here at all.
+           * This whole page is only supposed to show if the user isn't logged in.
+           * If the user is logged in, they should be redirected
+           */}
           <center>
             <h1 className="mb-1">WELCOME TO CHATR</h1>
             <h3 className="mb-5">

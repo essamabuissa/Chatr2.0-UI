@@ -11,6 +11,10 @@ export const fetchMessages = () => async dispatch => {
   }
 };
 
+/**
+ * Don't commit "dead" code
+ */
+
 // export const postMessages = newMessage => async dispatch => {
 //   try {
 //     await instance.post(`/channels/${channelID}/post`, newMessage);

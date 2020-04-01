@@ -19,6 +19,7 @@ class CreateChannelForm extends Component {
   };
 
   componentDidMount() {
+    // this is redundant - you already have an initial state
     this.setState({ done: false });
   }
 
@@ -54,6 +55,7 @@ class CreateChannelForm extends Component {
           </div>
           <input type="submit" />
         </form>
+        {/* If you send history to the action function, you won't need to do this or have the `done` state */}
         {this.state.done && <Redirect to="/private" />}
       </div>
     );
