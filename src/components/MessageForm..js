@@ -25,6 +25,7 @@ class MessageForm extends Component {
             value={this.state.message}
             onChange={e => this.setState({ message: e.target.value })}
             onKeyUp={e => {
+              // You can avoid this by having a hidden <input type="submit" />
               if (!e.shiftKey && e.key === "Enter") this.submitMessage(e); //If the user press Shitf+Enter the form will not submit , if he uses "Enter" the form will submit
             }}
           />

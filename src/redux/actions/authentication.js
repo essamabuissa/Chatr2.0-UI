@@ -1,8 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 import { SET_CURRENT_USER, SET_CHANNEL } from "./actionTypes";
-import { resetErrors } from "./index";
-import { setErrors } from "./index";
+import { resetErrors, setErrors } from "./errors";
 import { fetchChannels } from "./channels";
 
 import instance from "./instance";
@@ -19,7 +18,7 @@ export const checkForExpiredToken = () => {
         setLocalStorage(token);
         setAuthToken(token);
         dispatch(setCurrentUser(user));
-        console.log(user);
+        console.log(user); // <-- don't commit console logs into master
         dispatch(fetchChannels());
       } else {
         dispatch(logout());
@@ -60,7 +59,7 @@ export const registerForm = (userData, history, type) => async dispatch => {
     setAuthToken(token);
     dispatch(setCurrentUser(decodeUser));
     dispatch(fetchChannels());
-    if (type === "login") history.push("/private");
+    if (type === "login") history.push("/private"); // <-- is there a better place to redirect?
   } catch (error) {
     dispatch(setErrors(error.response.data));
     console.error(error.response.data);

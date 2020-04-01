@@ -35,7 +35,7 @@ class RegistationForm extends Component {
   render() {
     const type = this.props.match.url.substring(1);
     const errors = this.props.errors;
-    console.log(errors);
+    console.log(errors); // <-- don't commit console logs
     return (
       <div className="card col-6 mx-auto p-0 mt-5">
         <div className="card-body">
