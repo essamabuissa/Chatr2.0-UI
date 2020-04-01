@@ -19,7 +19,7 @@ class SideNav extends React.Component {
 
   render() {
     const channelLinks = this.props.channels.map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
+      <ChannelNavLink key={channel.id} channel={channel} />
     ));
     return (
       <div>
@@ -30,7 +30,7 @@ class SideNav extends React.Component {
               <FontAwesomeIcon icon={faPlusCircle} />
             </Link>
           </li>
-          <div class="overflow-auto">
+          <div className="overflow-auto">
             {this.props.loading ? <Loading /> : channelLinks}
           </div>
         </ul>

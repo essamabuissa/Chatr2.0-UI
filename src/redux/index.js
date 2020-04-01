@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import { fetchChannels, checkForExpiredToken } from "./actions";
+import { checkForExpiredToken } from "./actions";
 
 import thunk from "redux-thunk";
 

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { postMessage } from "../redux/actions";
 
 class MessageForm extends Component {
   state = {
     message: ""
   };
 
-  submitMessage = event => {
-    event.PreventDefault();
-    if (this.state.message) {
-      postMessage(this.state, this.props.channel.id, this.resetForm);
-    }
+  submitMessage = e => {
+    console.log("text");
+    e.preventDefault();
+    this.props.postMessage(this.state, this.props.channelID);
+    this.setState({ message: "" });
   };
-  resetForm = () => this.setState({ message: "" });
 
   render() {
     return (
@@ -35,7 +35,8 @@ class MessageForm extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMessage: newMessage => dispatch(postMessage(newMessage))
+    postMessage: (message, channelID) =>
+      dispatch(postMessage(message, channelID))
   };
 };
 
