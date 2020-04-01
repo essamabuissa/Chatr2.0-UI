@@ -1,21 +1,23 @@
 import instance from "./instance";
-import { SET_MESSAGES } from "./actionTypes";
+import { SET_MESSAGES, ADD_MESSAGE } from "./actionTypes";
 
-export const fetchMessages = () => async dispatch => {
+export const fetchMessages = channelID => async dispatch => {
   try {
-    const response = await instance.get(`/channels/:channelID/`);
+    // dispatch({ type: SET_MESSAGES, payload: [] });
+    const response = await instance.get(`/channels/${channelID}/`);
     const messages = response.data;
-    dispatch({ type: SET_MESSAGES, payload: messages });
-  } catch (error) {
-    console.error(error.response.data);
+    dispatch({ type: SET_MESSAGES, payload: messages.reverse() });
+  } catch {
+    console.error("error at fetching message");
   }
 };
 
-// export const postMessages = newMessage => async dispatch => {
-//   try {
-//     await instance.post(`/channels/${channelID}/post`, newMessage);
-//   } catch (error) {
-//     console.error(error);
-//     console.error(error.response.data);
-//   }
-// };
+export const postMessage = (message, channelID) => async dispatch => {
+  try {
+    const res = await instance.post(`/channels/${channelID}/send/`, message);
+    const newMessage = res.data;
+    dispatch({ type: ADD_MESSAGE, payload: newMessage });
+  } catch {
+    console.error("error at posting message");
+  }
+};

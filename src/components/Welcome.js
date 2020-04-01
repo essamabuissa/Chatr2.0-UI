@@ -6,13 +6,14 @@ const Welcome = ({ user }) => (
   <div>
     <header className="masthead d-flex">
       {!user ? (
-        <center>
-          <div className="overlay z-0" />
-          <h1 className="text-center"> Welcome to our Chatter</h1>
-          <Link to="/login" className="btn btn-primary btn-lg">
-            Login
-          </Link>
-        </center>
+        <div className="container text-center my-auto z-1">
+          <center>
+            <h1 className="mb-1"> Welcome to our Chatter</h1>
+            <Link to="/login" className="btn btn-primary btn-lg">
+              Login
+            </Link>
+          </center>
+        </div>
       ) : (
         <div className="container text-center my-auto z-1">
           <center>
