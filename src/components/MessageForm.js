@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { postMessage } from "../redux/actions";
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
 
 class MessageForm extends Component {
   state = {
-    message: ""
+    message: "",
+    emojiPickerState: false
   };
 
   submitMessage = e => {
@@ -12,6 +15,12 @@ class MessageForm extends Component {
     e.preventDefault();
     this.props.postMessage(this.state, this.props.channelID);
     this.setState({ message: "" });
+  };
+
+  triggerEmojiPicker = event => {
+    event.preventDefault();
+    console.log("emoji");
+    this.setState({ emojiPickerState: true });
   };
 
   render() {
@@ -28,7 +37,28 @@ class MessageForm extends Component {
               if (!e.shiftKey && e.key === "Enter") this.submitMessage(e); //If the user press Shitf+Enter the form will not submit , if he uses "Enter" the form will submit
             }}
           />
+          {this.state.emojiPickerState ? (
+            <Picker
+              title="Pick your emoji…"
+              emoji="point_up"
+              onSelect={emoji =>
+                this.setState({
+                  message: this.state.message + emoji.native
+                })
+              }
+            />
+          ) : (
+            this.setState({ emojiPickerState: false })
+          )}
         </form>
+        <button
+          className="ma4 b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+          onClick={this.triggerEmojiPicker}
+        >
+          <span role="img" aria-label="">
+            😁
+          </span>
+        </button>
       </div>
     );
   }
@@ -41,3 +71,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(null, mapDispatchToProps)(MessageForm);
+  
