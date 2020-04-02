@@ -5,4 +5,4 @@ export const ADD_CHANNEL = "ADD_CHANNEL";
 export const SET_CHANNEL = "SET_CHANNEL";
 export const SET_MESSAGES = "SET_MESSAGES";
 export const ADD_MESSAGE = "ADD_MESSAGE";
-export const SET_LOADING = "SET_LOADING";
+export const CLEAR_MESSAGES = "CLEAR_MESSAGES";

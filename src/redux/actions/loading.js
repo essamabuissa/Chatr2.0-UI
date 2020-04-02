@@ -1,3 +1,3 @@
-import { SET_LOADING } from "./actionTypes";
+// import { SET_LOADING } from "./actionTypes";
 
-export const setLoading = () => ({ type: SET_LOADING });
+// export const setLoading = () => ({ type: SET_LOADING });

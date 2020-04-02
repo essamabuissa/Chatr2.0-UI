@@ -1,104 +1,140 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import moment from "moment";
 // Components
 import Loading from "./Loading";
 import MessageForm from "./MessageForm";
-
-import { fetchMessages } from "../redux/actions";
-import { setLoading } from "../redux/actions/loading";
+import { fetchMessages, refreshMessages } from "../redux/actions";
+import { CLEAR_MESSAGES } from "../redux/actions/actionTypes";
 
 class ChannelDetail extends Component {
-  interval = null;
-  componentDidMount(interval) {
-    interval = setInterval(
-      () => (
-        this.props.fetchMessages(this.props.match.params.channelID),
-        console.log("didmount")
-      ),
-      1500
-    );
-  }
+  interval = setInterval(
+    () => this.props.fetchMessages(this.props.match.params.channelID),
+    2500
+  );
 
-  componentDidUpdate = (previousProps, interval) => {
+  // componentDidMount() {
+  //   this.interval = setInterval(
+  //     () => this.props.fetchMessages(this.props.match.params.channelID),
+  //     2500
+  //   );
+  // }
+
+  componentDidUpdate = previousProps => {
     if (
       this.props.match.params.channelID !== previousProps.match.params.channelID
     ) {
-      clearInterval(interval);
-
-      interval = setInterval(
-        () => (
-          this.props.fetchMessages(this.props.match.params.channelID),
-          console.log("didupdate")
-        ),
-        1500
+      clearInterval(this.interval);
+      this.props.refreshMessages();
+      this.interval = setInterval(
+        () => this.props.fetchMessages(this.props.match.params.channelID),
+        2500
       );
     }
   };
 
-  componentWillUnmount = interval => {
-    console.log("willunmount");
-
-    clearInterval(interval);
+  componentWillUnmount = () => {
+    clearInterval(this.interval);
   };
-
+  // setLiveMessagesInterval() {
+  //   this.interval = setInterval(() => {
+  //     const messages = this.props.messages;
+  //     let timestamp = "";
+  //     if (messages.length) timestamp = messages[0].timestamp;
+  //     this.props.fetchMessages(this.props.match.params.channelID, timestamp);
+  //   }, 3500);
+  // }
+  // componentDidMount() {
+  //   this.setLiveMessagesInterval();
+  // }
+  // componentDidUpdate(oldProps) {
+  //   if (this.props.match.params.channelID !== oldProps.match.params.channelID) {
+  //     this.props.clearMessages();
+  //     clearInterval(this.interval);
+  //     this.setLiveMessagesInterval();
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   clearInterval(this.interval);
+  // }
   render() {
     if (this.props.loading) return <Loading />;
+
     const { channelID } = this.props.match.params;
     console.log(channelID);
+
     const channel = this.props.channels.find(
       channel => channel.id === +channelID
     );
 
     const channelName = `${channel.name}`;
+
     const MessageList = this.props.messages.map(message => (
       <article className="comment">
-        <div>
-          <a className="comment-img" href={channelName}>
-            <img src={channel.image_url} alt="" width="50" height="50" />
-          </a>
-        </div>
+        <a className="comment-img" href="#non">
+          <img
+            src="https://secure.gravatar.com/avatar/698ce814c8771e54b4821a23e086536a?s=100&r=g&d=mm"
+            alt=""
+            width="50"
+            height="50"
+          />
+        </a>
         <div className="comment-body">
-          <div className="msg_cotainer">{message.message}</div>
+          <div
+            className="text"
+            style={{
+              backgroundColor: `${
+                message.username === this.props.user.username
+                  ? "#e45a84"
+                  : "#2c134d"
+              }`
+            }}
+          >
+            <p>{message.message}</p>
+          </div>
           <p className="attribution">
-            by <a href="#non">{message.username}</a> at {message.timestamp}
+            by <a href="#non">{message.username}</a> at{" "}
+            {moment(message.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
           </p>
         </div>
       </article>
     ));
-    console.log(this.props.messages);
+    // console.log(this.props.messages);
 
     return (
       <div className="container text-center my-auto z-1">
-        <center>
-          <div className="channel">
-            <div>
-              <h3>{channelName}</h3> <h6>owner: {channel.owner}</h6>
-              <img
-                src={channel.image_url}
-                className="img-thumbnail img-fluid"
-                alt={channelName}
-              />
+        {this.props.loading ? (
+          <Loading />
+        ) : (
+          <center>
+            <div className="channel">
+              <div>
+                <h3>{channelName}</h3> <h6>owner: {channel.owner}</h6>
+                <img src={channel.image_url} className="" alt={channelName} />
+              </div>
+              <MessageForm channelID={channel.id} />
+              <section className="comments">{MessageList}</section>
             </div>
-            <MessageForm channelID={channel.id} />
-            <section className="comments">{MessageList}</section>
-          </div>{" "}
-        </center>
+          </center>
+        )}
       </div>
     );
   }
 }
-const mapStateToProps = ({ channels, messages }) => {
+const mapStateToProps = ({ channels, messages, user }) => {
   return {
     channels,
     messages,
+    user,
     loading: !channels.length || !messages.length
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMessages: channelID => dispatch(fetchMessages(channelID))
+    fetchMessages: channelID => dispatch(fetchMessages(channelID)),
+    refreshMessages: () => dispatch(refreshMessages()),
+    clearMessages: () => dispatch({ type: CLEAR_MESSAGES })
   };
 };
 
