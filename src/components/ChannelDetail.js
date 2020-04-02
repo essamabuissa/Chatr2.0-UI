@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import MessageForm from "./MessageForm";
 
 import { fetchMessages } from "../redux/actions";
-import { setLoading } from "../redux/actions/loading";
+import { setLoading } from "../redux/actions/loading"; // <-- ded
 
 class ChannelDetail extends Component {
   interval = null;
@@ -14,7 +14,7 @@ class ChannelDetail extends Component {
     interval = setInterval(
       () => (
         this.props.fetchMessages(this.props.match.params.channelID),
-        console.log("didmount")
+        console.log("didmount") // <-- don't commit console logs
       ),
       1500
     );
@@ -29,7 +29,7 @@ class ChannelDetail extends Component {
       interval = setInterval(
         () => (
           this.props.fetchMessages(this.props.match.params.channelID),
-          console.log("didupdate")
+          console.log("didupdate") // <-- don't commit console logs
         ),
         1500
       );
@@ -37,7 +37,7 @@ class ChannelDetail extends Component {
   };
 
   componentWillUnmount = interval => {
-    console.log("willunmount");
+    console.log("willunmount"); // <-- don't commit console logs
 
     clearInterval(interval);
   };
@@ -45,7 +45,7 @@ class ChannelDetail extends Component {
   render() {
     if (this.props.loading) return <Loading />;
     const { channelID } = this.props.match.params;
-    console.log(channelID);
+    console.log(channelID); // <-- don't commit console logs
     const channel = this.props.channels.find(
       channel => channel.id === +channelID
     );
@@ -66,7 +66,7 @@ class ChannelDetail extends Component {
         </div>
       </article>
     ));
-    console.log(this.props.messages);
+    console.log(this.props.messages); // <-- don't commit console logs
 
     return (
       <div className="container text-center my-auto z-1">
@@ -82,7 +82,7 @@ class ChannelDetail extends Component {
             </div>
             <MessageForm channelID={channel.id} />
             <section className="comments">{MessageList}</section>
-          </div>{" "}
+          </div>
         </center>
       </div>
     );

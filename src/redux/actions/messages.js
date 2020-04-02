@@ -1,6 +1,12 @@
 import instance from "./instance";
 import { SET_MESSAGES, ADD_MESSAGE, SET_LOADING } from "./actionTypes";
 
+/**
+ * Cleanup:
+ *
+ * - remove "dead" code
+ * - remove console logs
+ */
 export const fetchMessages = channelID => async dispatch => {
   try {
     // dispatch({ type: SET_MESSAGES, payload: [] });
