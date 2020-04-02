@@ -11,7 +11,7 @@ class MessageForm extends Component {
   };
 
   submitMessage = e => {
-    console.log("text");
+    console.log("text"); // <-- don't commit console logs
     e.preventDefault();
     this.props.postMessage(this.state, this.props.channelID);
     this.setState({ message: "" });
@@ -19,7 +19,7 @@ class MessageForm extends Component {
 
   triggerEmojiPicker = event => {
     event.preventDefault();
-    console.log("emoji");
+    console.log("emoji"); // <-- don't commit console logs
     this.setState({ emojiPickerState: true });
   };
 
@@ -44,11 +44,12 @@ class MessageForm extends Component {
               onSelect={emoji =>
                 this.setState({
                   message: this.state.message + emoji.native
+                  // emojiPickerState: false   ?
                 })
               }
             />
           ) : (
-            this.setState({ emojiPickerState: false })
+            this.setState({ emojiPickerState: false }) // <-- what does this even do? If there's not "else" then just use `&&`
           )}
         </form>
         <button
@@ -71,4 +72,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(null, mapDispatchToProps)(MessageForm);
-  

@@ -54,6 +54,8 @@ class CreateChannelForm extends Component {
           </div>
           <input type="submit" />
         </form>
+        {/* Instead of doing this, you should be sending `history` to `postChannel` and using it to redirect AFTER successful post */}
+        {/* Also, that way you can redirect the user to the channel they just created */}
         {this.state.done && <Redirect to="/private" />}
       </div>
     );
