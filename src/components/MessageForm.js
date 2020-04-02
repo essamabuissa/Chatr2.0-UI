@@ -29,7 +29,7 @@ class MessageForm extends Component {
         <form className="col-11 mx-auto" onSubmit={this.submitMessage}>
           <textarea
             className="form-control"
-            rows="4"
+            rows="2"
             placeholder="Type your message here"
             value={this.state.message}
             onChange={e => this.setState({ message: e.target.value })}
@@ -37,28 +37,39 @@ class MessageForm extends Component {
               if (!e.shiftKey && e.key === "Enter") this.submitMessage(e); //If the user press Shitf+Enter the form will not submit , if he uses "Enter" the form will submit
             }}
           />
-          {this.state.emojiPickerState ? (
+          <button>
+            <span
+              className="nav-link"
+              id="emoji"
+              onClick={() =>
+                this.setState(prevState => ({
+                  emojiPickerState: !prevState.emojiPickerState
+                }))
+              }
+              role="img"
+              aria-label=""
+            >
+              😁
+            </span>
+          </button>
+          {this.state.emojiPickerState && (
             <Picker
               title="Pick your emoji…"
               emoji="point_up"
               onSelect={emoji =>
-                this.setState({
-                  message: this.state.message + emoji.native
-                })
+                this.setState({ message: this.state.message + emoji.native })
               }
             />
-          ) : (
-            this.setState({ emojiPickerState: false })
           )}
         </form>
-        <button
+        {/* <button
           className="ma4 b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-          onClick={this.triggerEmojiPicker}
+          onClick={() => this.triggerEmojiPicker}
         >
           <span role="img" aria-label="">
-            😁
+           
           </span>
-        </button>
+        </button> */}
       </div>
     );
   }
@@ -71,4 +82,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(null, mapDispatchToProps)(MessageForm);
-  
