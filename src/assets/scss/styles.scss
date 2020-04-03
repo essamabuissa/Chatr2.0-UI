@@ -9,44 +9,36 @@ body {
   background: #7e4934;
 }
 
-$particleSize: 10vmin;
-$animationDuration: 6s;
-$amount: 20;
-.background strong {
-  width: $particleSize;
-  height: $particleSize;
-  border-radius: $particleSize;
-  backface-visibility: hidden;
-  position: absolute;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  $colors: (#583c87, #e45a84, #ffacac);
-  @for $i from 1 through $amount {
-    &:nth-child(#{$i}) {
-      color: nth($colors, random(length($colors)));
-      top: random(100) * 1%;
-      right: random(100) * 1%;
-      animation-duration: (random($animationDuration * 10) / 10) * 1s + 10s;
-      animation-delay: random(($animationDuration + 10s) * 10) / 10 * -1s;
-      transform-origin: (random(50) - 25) * 1vw (random(50) - 25) * 1vh;
-      $blurRadius: (random() + 0.5) * $particleSize * 0.5;
-      $x: if(random() > 0.5, -1, 1);
-    }
-  }
+.macro {
+  margin-top: 5px;
+  width: 70%;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+}
+.msj-rta {
+  float: right;
+  background: whitesmoke;
+  width: 50%;
+}
+.msj {
+  float: left;
+  background: white;
+  width: 40%;
 }
 
-@keyframes move {
-  100% {
-    transform: translate3d(0, 0, 1px) rotate(360deg);
-  }
+.text-l {
+  float: left;
+  padding-right: 10px;
+}
+.text-r {
+  float: right;
+  padding-left: 10px;
 }
 
-.msg_cotainer {
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: 10px;
-  border-radius: 25px;
-  background-color: black;
-  padding: 10px;
-  position: relative;
+.text {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  color: black;
 }
