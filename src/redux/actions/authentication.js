@@ -60,7 +60,11 @@ export const registerForm = (userData, history, type) => async dispatch => {
     setAuthToken(token);
     dispatch(setCurrentUser(decodeUser));
     dispatch(fetchChannels());
-    if (type === "login") history.push("/private");
+    if (type === "signup") {
+      history.push("/channels");
+    } else {
+      history.push("/private");
+    }
   } catch (error) {
     dispatch(setErrors(error.response.data));
     console.error(error.response.data);
