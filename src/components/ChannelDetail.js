@@ -91,7 +91,7 @@ class ChannelDetail extends Component {
               />
             </div>
             <div className="text text-l">
-              <p>{message.username}</p>
+              <p className="bold">{message.username}</p>
               <p>{message.message}'</p>
               <p>
                 <small>
@@ -115,7 +115,7 @@ class ChannelDetail extends Component {
               />
             </div>
             <div className="text text-r">
-              <p>{message.username}</p>
+              <p className="bold">{message.username}</p>
 
               <p>{message.message}'</p>
               <p>
