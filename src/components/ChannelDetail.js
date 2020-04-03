@@ -73,30 +73,59 @@ class ChannelDetail extends Component {
       <article className="comment">
         <a className="comment-img" href="#non">
           <img
-            src="https://secure.gravatar.com/avatar/698ce814c8771e54b4821a23e086536a?s=100&r=g&d=mm"
+            src={
+              "https://secure.gravatar.com/avatar/698ce814c8771e54b4821a23e086536a?s=100&r=g&d=mm"
+            }
             alt=""
             width="50"
             height="50"
           />
         </a>
-        <div className="comment-body">
-          <div
-            className="text"
-            style={{
-              backgroundColor: `${
-                message.username === this.props.user.username
-                  ? "#e45a84"
-                  : "#2c134d"
-              }`
-            }}
-          >
-            <p>{message.message}</p>
+        {message.username === this.props.user.username ? (
+          <div className="msj macro">
+            <div className="avatar">
+              <img
+                className="img-circle"
+                style={{ width: "100%" }}
+                src="https://secure.gravatar.com/avatar/698ce814c8771e54b4821a23e086536a?s=100&r=g&d=mm"
+              />
+            </div>
+            <div className="text text-l">
+              <p>{message.username}</p>
+              <p>{message.message}'</p>
+              <p>
+                <small>
+                  Sent at {moment(message.timestamp).format(" h:mm:ss a")}
+                </small>
+              </p>
+            </div>
           </div>
-          <p className="attribution">
-            by <a href="#non">{message.username}</a> at{" "}
-            {moment(message.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
-          </p>
-        </div>
+        ) : (
+          <div className="msj-rta macro">
+            <div className="avatar">
+              <img
+                className="img-circle"
+                style={{ width: "100%" }}
+                src="https://secure.gravatar.com/avatar/698ce814c8771e54b4821a23e086536a?s=100&r=g&d=mm"
+              />
+              <img
+                className="img-circle"
+                style={{ width: "100%" }}
+                src={message.img}
+              />
+            </div>
+            <div className="text text-r">
+              <p>{message.username}</p>
+
+              <p>{message.message}'</p>
+              <p>
+                <small>
+                  Sent at {moment(message.timestamp).format(" h:mm:ss a")}
+                </small>
+              </p>
+            </div>
+          </div>
+        )}
       </article>
     ));
     // console.log(this.props.messages);
