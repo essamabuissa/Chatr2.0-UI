@@ -22,21 +22,8 @@ const Welcome = ({ user }) => (
               <em>You're gonna need to login to see the messages</em>
             </h3>
           </center>
-          <form>
-            <textarea
-              type="email"
-              className="form-control mt-5"
-              id="exampleFormControlTextarea1"
-              rows="3"
-            ></textarea>
-          </form>
-          <center>
-            {" "}
-            <button type="submit" className="btn btn-primary btn-lg mt-3">
-              {" "}
-              Send{" "}
-            </button>
-          </center>
+
+          <center> </center>
         </div>
       )}
     </header>
