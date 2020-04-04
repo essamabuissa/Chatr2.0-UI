@@ -11,7 +11,8 @@ const NavBar = () => (
     id="mainNav"
   >
     <Link className="navbar-brand" to="/welcome">
-      Chatr2.0
+    
+    Corona Chat
     </Link>
     <button
       className="navbar-toggler navbar-toggler-right"

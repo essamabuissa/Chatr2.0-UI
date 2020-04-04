@@ -8,7 +8,7 @@ import { fetchChannels } from "./channels";
 import instance from "./instance";
 
 export const checkForExpiredToken = () => {
-  return dispatch => {
+  return (dispatch) => {
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -28,7 +28,7 @@ export const checkForExpiredToken = () => {
   };
 };
 
-const setLocalStorage = token => {
+const setLocalStorage = (token) => {
   if (token) {
     localStorage.setItem("token", token);
   } else {
@@ -36,7 +36,7 @@ const setLocalStorage = token => {
   }
 };
 
-const setAuthToken = token => {
+const setAuthToken = (token) => {
   if (token) {
     instance.defaults.headers.common.Authorization = `jwt ${token}`;
   } else {
@@ -44,12 +44,12 @@ const setAuthToken = token => {
   }
 };
 
-const setCurrentUser = user => ({
+const setCurrentUser = (user) => ({
   type: SET_CURRENT_USER,
-  payload: user
+  payload: user,
 });
 
-export const registerForm = (userData, history, type) => async dispatch => {
+export const registerForm = (userData, history, type) => async (dispatch) => {
   try {
     const res = await instance.post(`/${type}/`, userData);
     const { token } = res.data;
@@ -60,21 +60,17 @@ export const registerForm = (userData, history, type) => async dispatch => {
     setAuthToken(token);
     dispatch(setCurrentUser(decodeUser));
     dispatch(fetchChannels());
-    if (type === "signup") {
-      history.push("/channels");
-    } else {
-      history.push("/private");
-    }
+    if (type) history.push("/channels");
   } catch (error) {
     dispatch(setErrors(error.response.data));
     console.error(error.response.data);
   }
 };
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   dispatch({
     type: SET_CHANNEL,
-    payload: []
+    payload: [],
   });
   setLocalStorage();
   setAuthToken(null);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "./assets/scss/styles.scss";
-import "./styles.css";
+import "./assets/css/styles.css"; //Changing file location
 // Scripts
 import main from "./assets/js/main";
 

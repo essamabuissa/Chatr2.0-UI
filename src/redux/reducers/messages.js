@@ -9,7 +9,7 @@ const reducer = (state = initialState, action) => {
       return messages;
     case ADD_MESSAGE:
       const newMessage = action.payload;
-      return [newMessage, ...state];
+      return [...state, newMessage];
     default:
       return state;
   }
